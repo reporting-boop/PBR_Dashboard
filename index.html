@@ -352,15 +352,17 @@ function renderCharts() {
   // Grouped bar chart: Act Target vs DCS Acts vs Recent Acts by Market (top 12)
   const mkts = [...new Set(filtered.map(r=>r.market))];
   const mktData = mkts.map(m => {
-    const rows = filtered.filter(r=>r.market===m);
-    return {
-      m,
-      target: Math.round(rows.reduce((s,r)=>s+r.actTarget,0)/rows.length),
-      dcs:    Math.round(rows.reduce((s,r)=>s+r.dcsActs,0)/rows.length),
-      recent: Math.round(rows.reduce((s,r)=>s+r.recentActs,0)/rows.length)
-    };
-  }).sort((a,b)=>(b.dcs+b.recent)-(a.dcs+a.recent)).slice(0,12);
+  const rows = filtered.filter(r => r.market === m);
 
+  return {
+    m,
+    target: rows.reduce((sum, r) => sum + (r.actTarget || 0), 0),
+    dcs:    rows.reduce((sum, r) => sum + (r.dcsActs || 0), 0),
+    recent: rows.reduce((sum, r) => sum + (r.recentActs || 0), 0)
+  };
+})
+.sort((a, b) => (b.dcs + b.recent) - (a.dcs + a.recent))
+.slice(0, 12);
   if (mChart) mChart.destroy();
   mChart = new Chart(document.getElementById('chartMarket'), {
     type: 'bar',
