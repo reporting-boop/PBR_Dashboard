@@ -139,7 +139,15 @@ tr:last-child td{border-bottom:none}
     </div>
     <div class="login-field">
       <label>Password</label>
-      <input type="password" id="loginPass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+      <div style="position:relative">
+        <input type="password" id="loginPass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()" style="width:100%;padding-right:44px">
+        <button type="button" onclick="togglePass()" id="togglePassBtn"
+          style="position:absolute;right:0;top:0;height:100%;width:42px;background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;display:flex;align-items:center;justify-content:center;border-radius:0 8px 8px 0;transition:.15s"
+          onmouseenter="this.style.color='#fff'" onmouseleave="this.style.color='var(--muted)'"
+          title="Show / hide password">
+          <span id="eyeIcon">👁</span>
+        </button>
+      </div>
     </div>
     <button class="login-btn" onclick="doLogin()">Sign In</button>
     <div class="login-err" id="loginErr">Invalid username or password. Please try again.</div>
@@ -210,7 +218,7 @@ tr:last-child td{border-bottom:none}
 
   <div class="charts-row">
     <div class="chart-card">
-      <div class="chart-ttl">Act Target vs DCS Acts (27th) vs Acts 28–29th by Market —(top 12)</div>
+      <div class="chart-ttl">Act Target vs DCS Acts (27th) vs Acts 28–29th by Market</div>
       <div style="position:relative;height:220px"><canvas id="chartMarket" role="img" aria-label="Quota attainment by market"></canvas></div>
     </div>
     <div class="chart-card">
@@ -275,44 +283,44 @@ tr:last-child td{border-bottom:none}
 // ═══════════════════════════════════════════════════
 const DM_CREDENTIALS = {
   // username (lowercase) : { password, markets:[], name }
-  'admin':            { password:'Admin@2025',   markets:[], name:'Admin',               role:'admin' },
-  'shoeb':            { password:'Shoeb@2025',   markets:['ARIZONA'], name:'Shoeb',       role:'dm' },
-  'hamza':            { password:'Hamza@2025',   markets:['ARIZONA'], name:'Hamza',       role:'dm' },
-  'adil':             { password:'Adil@2025',    markets:['ARIZONA'], name:'Adil',        role:'dm' },
-  'syedamir':         { password:'Amir@2025',    markets:['ARKANSAS','MEMPHIS'], name:'Syed Amir', role:'dm' },
-  'mohammedanas':     { password:'Anas@2025',    markets:['BAY AREA'], name:'Mohammed Anas', role:'dm' },
-  'namir':            { password:'Namir@2025',   markets:['CHARLOTTE'], name:'Namir Elmouchantaf', role:'dm' },
-  'farhan':           { password:'Farhan@2025',  markets:['COLORADO'], name:'Muhammad Farhan Asghar', role:'dm' },
-  'abdullahbutt':     { password:'Abdullah@2025',markets:['COLORADO'], name:'Abdullah Butt', role:'dm' },
-  'imranahmed':       { password:'ImranA@2025',  markets:['DALLAS','OKHLAHOMA'], name:'Imran Ahmed Mohammed', role:'dm' },
-  'imranshaikh':      { password:'ImranS@2025',  markets:['DALLAS'], name:'Imran Shaikh', role:'dm' },
-  'salim':            { password:'Salim@2025',   markets:['DALLAS'], name:'Salim Thanawala', role:'dm' },
-  'hassan':           { password:'Hassan@2025',  markets:['Durham'], name:'Hassan Tanveer', role:'dm' },
-  'saadali':          { password:'Saad@2025',    markets:['EAST BAY AREA'], name:'Saad Ali', role:'dm' },
-  'haroon':           { password:'Haroon@2025',  markets:['EL PASO'], name:'Haroon Iqbal', role:'dm' },
-  'eleyan':           { password:'Eleyan@2025',  markets:['FLORIDA'], name:'Mohammed Eleyan', role:'dm' },
-  'ayyan':            { password:'Ayyan@2025',   markets:['GEORGIA'], name:'Ayyan Budwani', role:'dm' },
-  'wajahat':          { password:'Wajahat@2025', markets:['East'], name:'Wajahat Ali Sattar Rajper', role:'dm' },
-  'salmanriaz':       { password:'Salman@2025',  markets:['South'], name:'Salman Riaz',   role:'dm' },
-  'zubair':           { password:'Zubair@2025',  markets:['Central'], name:'Zubair Hussain', role:'dm' },
-  'mukram':           { password:'Mukram@2025',  markets:['Airline'], name:'Mukram Shareef Mohammed', role:'dm' },
-  'sunvee':           { password:'Sunvee@2025',  markets:['North'], name:'MD Sunvee Bin Islam', role:'dm' },
-  'khaja':            { password:'Khaja@2025',   markets:['KENTUCKY','NASHVILLE'], name:'Khaja Ameenuddin Ghori', role:'dm' },
-  'subhan':           { password:'Subhan@2025',  markets:['LA - Central'], name:'Subhan Ansari', role:'dm' },
-  'rafay':            { password:'Rafay@2025',   markets:['LA - East'], name:'Abdul Rafay Ashraf', role:'dm' },
-  'sharik':           { password:'Sharik@2025',  markets:['LA North'], name:'Sharik Thobani', role:'dm' },
-  'shoaib':           { password:'Shoaib@2025',  markets:['MEMPHIS'], name:'Muhammad Shoaib Sheeraz', role:'dm' },
-  'zaidwaseem':       { password:'Zaid@2025',    markets:['MEMPHIS'], name:'Zaid Waseem',  role:'dm' },
-  'sumair':           { password:'Sumair@2025',  markets:['NORTH BAY AREA'], name:'Muhammad Sumairuddin', role:'dm' },
-  'prabhakar':        { password:'Prabhakar@2025',markets:['OREGON'], name:'Prabhakar Sivan', role:'dm' },
-  'aslam':            { password:'Aslam@2025',   markets:['OXNARD','PALMDALE','SANTA BARBARA'], name:'Aslam Khan', role:'dm' },
-  'syedali':          { password:'SyedAli@2025', markets:['Raleigh East'], name:'SyedAli AhmedRizvi', role:'dm' },
-  'uzair':            { password:'Uzair@2025',   markets:['Raleigh West'], name:'Uzair Uddin', role:'dm' },
-  'talha':            { password:'Talha@2025',   markets:['SACRAMENTO'], name:'Talha Qureshi', role:'dm' },
-  'hafizasad':        { password:'Asad@2025',    markets:['SACRAMENTO'], name:'Hafiz Asad Burgees', role:'dm' },
-  'maazkhan':         { password:'Maaz@2025',    markets:['San Bernardino'], name:'Maaz Khan', role:'dm' },
-  'hassansaleem':     { password:'HassanS@2025', markets:['SAN DIEGO'], name:'Hassan Saleem', role:'dm' },
-  'kamaran':          { password:'Kamaran@2025', markets:['SAN FRANCISCO'], name:'Kamaran Mohammed', role:'dm' },
+  'admin':            { password:'Admin@2026',   markets:[], name:'Admin',               role:'admin' },
+  'shoeb':            { password:'Shoeb@2026',   markets:['ARIZONA'], name:'Shoeb',       role:'dm' },
+  'hamza':            { password:'Hamza@2026',   markets:['ARIZONA'], name:'Hamza',       role:'dm' },
+  'adil':             { password:'Adil@2026',    markets:['ARIZONA'], name:'Adil',        role:'dm' },
+  'syedamir':         { password:'Amir@2026',    markets:['ARKANSAS','MEMPHIS'], name:'Syed Amir', role:'dm' },
+  'mohammedanas':     { password:'Anas@2026',    markets:['BAY AREA'], name:'Mohammed Anas', role:'dm' },
+  'namir':            { password:'Namir@2026',   markets:['CHARLOTTE'], name:'Namir Elmouchantaf', role:'dm' },
+  'farhan':           { password:'Farhan@2026',  markets:['COLORADO'], name:'Muhammad Farhan Asghar', role:'dm' },
+  'abdullahbutt':     { password:'Abdullah@2026',markets:['COLORADO'], name:'Abdullah Butt', role:'dm' },
+  'imranahmed':       { password:'ImranA@2026',  markets:['DALLAS','OKHLAHOMA'], name:'Imran Ahmed Mohammed', role:'dm' },
+  'imranshaikh':      { password:'ImranS@2026',  markets:['DALLAS'], name:'Imran Shaikh', role:'dm' },
+  'salim':            { password:'Salim@2026',   markets:['DALLAS'], name:'Salim Thanawala', role:'dm' },
+  'hassan':           { password:'Hassan@2026',  markets:['Durham'], name:'Hassan Tanveer', role:'dm' },
+  'saadali':          { password:'Saad@2026',    markets:['EAST BAY AREA'], name:'Saad Ali', role:'dm' },
+  'haroon':           { password:'Haroon@2026',  markets:['EL PASO'], name:'Haroon Iqbal', role:'dm' },
+  'eleyan':           { password:'Eleyan@2026',  markets:['FLORIDA'], name:'Mohammed Eleyan', role:'dm' },
+  'ayyan':            { password:'Ayyan@2026',   markets:['GEORGIA'], name:'Ayyan Budwani', role:'dm' },
+  'wajahat':          { password:'Wajahat@2026', markets:['East'], name:'Wajahat Ali Sattar Rajper', role:'dm' },
+  'salmanriaz':       { password:'Salman@2026',  markets:['South'], name:'Salman Riaz',   role:'dm' },
+  'zubair':           { password:'Zubair@2026',  markets:['Central'], name:'Zubair Hussain', role:'dm' },
+  'mukram':           { password:'Mukram@2026',  markets:['Airline'], name:'Mukram Shareef Mohammed', role:'dm' },
+  'sunvee':           { password:'Sunvee@2026',  markets:['North'], name:'MD Sunvee Bin Islam', role:'dm' },
+  'khaja':            { password:'Khaja@2026',   markets:['KENTUCKY','NASHVILLE'], name:'Khaja Ameenuddin Ghori', role:'dm' },
+  'subhan':           { password:'Subhan@2026',  markets:['LA - Central'], name:'Subhan Ansari', role:'dm' },
+  'rafay':            { password:'Rafay@2026',   markets:['LA - East'], name:'Abdul Rafay Ashraf', role:'dm' },
+  'sharik':           { password:'Sharik@2026',  markets:['LA North'], name:'Sharik Thobani', role:'dm' },
+  'shoaib':           { password:'Shoaib@2026',  markets:['MEMPHIS'], name:'Muhammad Shoaib Sheeraz', role:'dm' },
+  'zaidwaseem':       { password:'Zaid@2026',    markets:['MEMPHIS'], name:'Zaid Waseem',  role:'dm' },
+  'sumair':           { password:'Sumair@2026',  markets:['NORTH BAY AREA'], name:'Muhammad Sumairuddin', role:'dm' },
+  'prabhakar':        { password:'Prabhakar@2026',markets:['OREGON'], name:'Prabhakar Sivan', role:'dm' },
+  'aslam':            { password:'Aslam@2026',   markets:['OXNARD','PALMDALE','SANTA BARBARA'], name:'Aslam Khan', role:'dm' },
+  'syedali':          { password:'SyedAli@2026', markets:['Raleigh East'], name:'SyedAli AhmedRizvi', role:'dm' },
+  'uzair':            { password:'Uzair@2026',   markets:['Raleigh West'], name:'Uzair Uddin', role:'dm' },
+  'talha':            { password:'Talha@2026',   markets:['SACRAMENTO'], name:'Talha Qureshi', role:'dm' },
+  'hafizasad':        { password:'Asad@2026',    markets:['SACRAMENTO'], name:'Hafiz Asad Burgees', role:'dm' },
+  'maazkhan':         { password:'Maaz@2026',    markets:['San Bernardino'], name:'Maaz Khan', role:'dm' },
+  'hassansaleem':     { password:'HassanS@2026', markets:['SAN DIEGO'], name:'Hassan Saleem', role:'dm' },
+  'kamaran':          { password:'Kamaran@2026', markets:['SAN FRANCISCO'], name:'Kamaran Mohammed', role:'dm' },
 };
 
 let currentUser = null;
@@ -366,6 +374,20 @@ function doLogout() {
   document.getElementById('tbody').innerHTML   = '';
   if (mChart) { mChart.destroy(); mChart = null; }
   if (dChart) { dChart.destroy(); dChart = null; }
+}
+
+
+// ── SHOW / HIDE PASSWORD ───────────────────────────
+function togglePass() {
+  const inp  = document.getElementById('loginPass');
+  const icon = document.getElementById('eyeIcon');
+  if (inp.type === 'password') {
+    inp.type   = 'text';
+    icon.textContent = '🙈';
+  } else {
+    inp.type   = 'password';
+    icon.textContent = '👁';
+  }
 }
 
 // ── FILTER by DM markets ────────────────────────────
