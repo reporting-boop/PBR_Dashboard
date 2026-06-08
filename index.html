@@ -517,7 +517,6 @@ function renderKPIs() {
   document.getElementById('kpiGrid').innerHTML = `
     <div class="kpi c-blue"><div class="kpi-lbl">Stores</div><div class="kpi-val">${d.length}</div><div class="kpi-sub">${activeTab} tab</div></div>
     <div class="kpi c-green"><div class="kpi-lbl">Total Acts</div><div class="kpi-val">${totalActs.toLocaleString()}</div><div class="kpi-sub">Target: ${totalTarget.toLocaleString()}</div></div>
-    <div class="kpi c-amber"><div class="kpi-lbl">Avg Quota %</div><div class="kpi-val">${avgQ}%</div><div class="kpi-sub">${over100} stores ≥100%</div></div>
     <div class="kpi c-purple"><div class="kpi-lbl">≥125% Stores</div><div class="kpi-val">${over125}</div><div class="kpi-sub">${Math.round((over125/d.length)*100)}% of total</div></div>
     <div class="kpi c-teal"><div class="kpi-lbl">Avg Retention</div><div class="kpi-val">${avgRet}%</div><div class="kpi-sub">${retGrt} Greater status</div></div>
     <div class="kpi c-green"><div class="kpi-lbl">$3K Payout</div><div class="kpi-val">${pay3k}</div><div class="kpi-sub">$1.2K: ${pay1k2}</div></div>
