@@ -77,7 +77,14 @@ select:focus,input:focus{outline:none;border-color:var(--blue)}
 .reset-btn:hover{border-color:var(--blue);color:var(--blue)}
 /* KPI GRID */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-bottom:18px}
-.kpi{  background: #af0081;border:1px solid var(--border);border-radius:10px;padding:16px;position:relative;overflow:hidden}
+.kpi{background: #000000;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    }
 .kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
 .kpi.c-blue::after{background:var(--blue)}
 .kpi.c-green::after{background:var(--green)}
